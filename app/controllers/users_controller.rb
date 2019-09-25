@@ -23,10 +23,22 @@ class UsersController < ApplicationController
     def show
         if logged_in? && params[:id].to_i == current_user.id
             @user = User.find_by_id(params[:id])
+            respond_to do |f|
+                f.html 
+                f.json {render json: @user}
+            end      
         else
           flash[:error] = "You are not allowed to view this page"
           redirect_to '/'
         end
+    end
+
+    def curr_user
+      if logged_in?
+         render json: {id: current_user.id}
+      else 
+        render json: {id: ""}
+      end
     end
 
     private

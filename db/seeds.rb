@@ -25,8 +25,8 @@ cruise_list = [
     Category.create(name: name)
   end
 
-  cruise_list.each do |name, category, capacity, price_child, price_adult, min_age|
-    cruise = Cruise.new( name: name, capacity: capacity, price_child: price_child, price_adult: price_adult, min_age: min_age)
+  cruise_list.each do |name, category, seats_left, price_child, price_adult, min_age|
+    cruise = Cruise.new( name: name, seats_left: seats_left, price_child: price_child, price_adult: price_adult, min_age: min_age)
     cruise.category = Category.find_by(:name => category)
     cruise.save
 end

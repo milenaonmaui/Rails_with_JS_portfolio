@@ -2,14 +2,17 @@ class CruisesController < ApplicationController
     before_action :require_admin
     skip_before_action :require_admin, only: [:show, :index]
 
-    def index
-        
+    def index        
         if params[:categories]
           @cruises = Cruise.by_category(params[:categories])
         else
           @cruises = Cruise.all 
         end
-    
+
+        respond_to do |f|
+            f.html 
+            f.json {render json: @cruises}
+        end      
     end
 
     def new
@@ -27,6 +30,10 @@ class CruisesController < ApplicationController
 
     def show
         @cruise = Cruise.find_by(:id => params[:id])
+        respond_to do |f|
+            f.html 
+            f.json {render json: @cruise}
+        end   
     end
    
     

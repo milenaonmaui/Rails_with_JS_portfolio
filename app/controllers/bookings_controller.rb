@@ -25,6 +25,11 @@ class BookingsController < ApplicationController
 
     def show
         find_booking
+        @cruise = @booking.cruise
+        respond_to do |f|
+            f.html 
+            f.json {render json: @booking}
+        end      
     end
 
     def index
@@ -34,6 +39,10 @@ class BookingsController < ApplicationController
         else
             redirect_to user_path(current_user)
         end
+        respond_to do |f|
+            f.html 
+            f.json {render json: @bookings}
+        end      
     end
 
     def edit
