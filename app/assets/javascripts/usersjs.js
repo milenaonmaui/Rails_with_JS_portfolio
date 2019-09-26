@@ -33,11 +33,7 @@ function generateList(userId) {
         let myBooking;
         data["bookings"].forEach(function(el){
             myBooking = new Booking(el);
-            console.log(myBooking.formatDate());
-            let elemId = el["id"]
-            bookingsList += '<li>' + "Booking for " + myBooking.cruise + "   " +
-            '<button id= ' + `"booking-${elemId}"` + '> View </button>' +
-            '<p id = ' + `"list-${elemId}"` + '></p></li>';
+            addBookingItem(myBooking);
         });
         $("#listBookings").html(bookingsList);    
     });
@@ -62,4 +58,21 @@ function generateList(userId) {
     return date.getDate() + "-" + monthNames[date.getMonth()] + "-" + date.getFullYear() + " at " + date.getHours() +":" + date.getMinutes();
   }
 
+  Booking.prototype.showDetails = function(){
+      $(`#list-${this.id}`).html(`<div><p><i>Cruise:<b> ${this.cruise} </b></i></p>
+      <p><i>Created at: ${this.formatDate()}</i></p>
+      <p>Adults: ${this.num_adults}, Children: ${this.num_children}</p></div>`)
+      
+  }
+
+
+ function addBookingItem(booking) {
+    let id =  booking.id;
+    let bookingListItem = '<li>' + "Booking for " + booking.cruise + "   " +
+    '<button id= ' + `"booking-${id}"` + '> View </button>' +
+    '<div id = ' + `"list-${id}"` + '></div></li>';
+    $("#bookingsList").append(bookingListItem);
+    $(`#booking-${id}`).on('click', () => booking.showDetails());
+  }
+  
 // $("p#list-1").append("text")
