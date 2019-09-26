@@ -25,7 +25,8 @@ function showBookings() {
 }
 
 function newBooking(){
-    alert('New booking');
+    let myBooking = Booking.newForm();
+    $("#newBookingDiv").html(myBooking)
 }
 
 function generateList(userId) {
@@ -49,6 +50,11 @@ function generateList(userId) {
           this.num_children = obj.num_children;
           this.num_adults = obj.num_adults;
           this.cruise = obj.cruise;
+      }
+      static newForm() {
+          return (`<form><input type="text">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          </form>`)
       }
   }
 
