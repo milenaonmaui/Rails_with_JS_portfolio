@@ -19,6 +19,7 @@ function showBookings() {
         success: function(resp){
             userId = resp["id"];
             generateList(userId);
+            $('button#bookings').attr("disabled", true);
         }
     });
 }
@@ -29,13 +30,11 @@ function generateList(userId) {
         metod: 'GET',
         dataType: 'json'               
       }).done(function(data){
-        var bookingsList = "";
         let myBooking;
         data["bookings"].forEach(function(el){
             myBooking = new Booking(el);
             addBookingItem(myBooking);
-        });
-        $("#listBookings").html(bookingsList);    
+        });   
     });
   }
 
