@@ -1,12 +1,12 @@
 
 $(document).ready(function() {
-    console.log('users.js is loaded...');
+    console.log('usersjs.js is loaded...');
+    listenForBookings();
   });
 
 function listenForBookings() {
-    $('button#bookings').on('click'), function(event){
-        showBookings()
-    }
+    $('#bookings').on('click', () => showBookings());
+    
 }
 
 function showBookings() {
