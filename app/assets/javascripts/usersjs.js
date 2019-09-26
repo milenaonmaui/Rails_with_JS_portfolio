@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 function listenForBookings() {
     $('#bookings').on('click', () => showBookings());
-    
+    $('#newBooking').on('click', () => newBooking());
 }
 
 function showBookings() {
@@ -22,6 +22,10 @@ function showBookings() {
             $('button#bookings').attr("disabled", true);
         }
     });
+}
+
+function newBooking(){
+    alert('New booking');
 }
 
 function generateList(userId) {
