@@ -2,11 +2,20 @@
 $(document).ready(function() {
     console.log('usersjs.js is loaded...');
     listenForBookings();
-  });
+  })
 
 function listenForBookings() {
     $('#bookings').on('click', () => showBookings());
     $('#newBooking').on('click', () => newBooking());
+}
+
+function listenForSubmit() {
+    $('form').submit(function(event) {
+        //prevent form from submitting the default way
+        event.preventDefault();
+        alert("we r hack3rz");
+      });
+
 }
 
 function showBookings() {
@@ -27,6 +36,7 @@ function showBookings() {
 function newBooking(){
     let myBooking = Booking.newForm();
     $("#newBookingDiv").html(myBooking)
+    listenForSubmit();
 }
 
 function generateList(userId) {
@@ -53,9 +63,17 @@ function generateList(userId) {
       }
       static newForm() {
           return (`<form><input type="text">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button id = "submit" type="submit" class="btn btn-primary">Submit</button>
           </form>`)
       }
+  }
+  
+  function createNewBooking() {
+    $.ajax({
+        type: 'POST',
+        url: '/bookings',
+        data: bookingData
+      });
   }
 
   Booking.prototype.formatDate = function(){
