@@ -1,7 +1,11 @@
+let cruises;
 
 $(document).ready(function() {
     console.log('usersjs.js is loaded...');
     listenForBookings();
+    $.getJSON("/cruises.json", function(result){
+        cruises=result;
+      });
   })
 
 function listenForBookings() {
@@ -13,7 +17,9 @@ function listenForSubmit() {
     $('form').submit(function(event) {
         //prevent form from submitting the default way
         event.preventDefault();
-        alert("we r hack3rz");
+        var values = $(this).serialize();
+        debugger
+        createNewBooking(values);
       });
 
 }
@@ -62,18 +68,19 @@ function generateList(userId) {
           this.cruise = obj.cruise;
       }
       static newForm() {
-          return (`<form><input type="text">
+          return (`<form><input type="text" name = "name">
           <button id = "submit" type="submit" class="btn btn-primary">Submit</button>
           </form>`)
       }
   }
   
-  function createNewBooking() {
-    $.ajax({
-        type: 'POST',
-        url: '/bookings',
-        data: bookingData
-      });
+  function createNewBooking(values) {
+      alert(values);
+   // $.ajax({
+   //     type: 'POST',
+   //     url: '/bookings',
+   //     data: bookingData
+   //   });
   }
 
   Booking.prototype.formatDate = function(){
