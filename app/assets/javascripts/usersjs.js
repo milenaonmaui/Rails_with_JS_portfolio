@@ -41,7 +41,8 @@ function showBookings() {
 
 function newBooking(){
     let myBooking = Booking.newForm();
-    $("#newBookingDiv").html(myBooking)
+    $("#newBookingDiv").html(myBooking);
+    populateSelectCruise();
     listenForSubmit();
 }
 
@@ -68,12 +69,23 @@ function generateList(userId) {
           this.cruise = obj.cruise;
       }
       static newForm() {
-          return (`<form><input type="text" name = "name">
+          return (`<form>
+          <select name="ddCruises" id="ddCruises">
+            <option value="None">Select cruise</option>
+          </select><input type="text" name = "name">
           <button id = "submit" type="submit" class="btn btn-primary">Submit</button>
           </form>`)
       }
   }
   
+  function populateSelectCruise(){
+      var ddList = document.getElementById('ddCruises');
+      cruises.forEach(function(cruise) {
+          let html = `<option value="${cruise["id"]}"` + `>${cruise["name"]}</option>`
+          ddList.innerHTML +=html;
+      })
+  }
+
   function createNewBooking(values) {
       alert(values);
    // $.ajax({
