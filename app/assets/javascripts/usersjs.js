@@ -18,7 +18,7 @@ function listenForSubmit() {
         //prevent form from submitting the default way
         event.preventDefault();
         var values = $(this).serialize();
-        debugger
+        //debugger
         createNewBooking(values);
       });
 
@@ -69,17 +69,29 @@ function generateList(userId) {
           this.cruise = obj.cruise;
       }
       static newForm() {
-          return (`<form>
-          <select name="ddCruises" id="ddCruises">
-            <option value="None">Select cruise</option>
-          </select><input type="text" name = "name">
+          return (`<form class="new_booking">
+          <select name="booking[cruise_id]" id="booking_cruise_id">
+            <option value="None">Select cruise</option><br>
+          </select>  
+          <div>
+            <label for="booking_number_adults">Number adults</label>
+          </div>
+          <div>
+            <input min="0" type="number" name="booking[num_adults]" id="booking_num_adults" />
+          </div>
+          <div>
+                <label for="booking_number_children">Number children</label>
+            </div>
+            <div>
+                <input min="0" type="number" value="0" name="booking[num_children]" id="booking_num_children" />
+            </div>
           <button id = "submit" type="submit" class="btn btn-primary">Submit</button>
           </form>`)
       }
   }
   
   function populateSelectCruise(){
-      var ddList = document.getElementById('ddCruises');
+      var ddList = document.getElementById('booking_cruise_id');
       cruises.forEach(function(cruise) {
           let html = `<option value="${cruise["id"]}"` + `>${cruise["name"]}</option>`
           ddList.innerHTML +=html;
@@ -87,12 +99,12 @@ function generateList(userId) {
   }
 
   function createNewBooking(values) {
-      alert(values);
-   // $.ajax({
-   //     type: 'POST',
-   //     url: '/bookings',
-   //     data: bookingData
-   //   });
+     // alert(values);
+      $.ajax({
+        type: 'POST',
+        url: '/bookings',
+        data: values
+      });
   }
 
   Booking.prototype.formatDate = function(){
