@@ -15,10 +15,8 @@ function listenForBookings() {
 
 function listenForSubmit() {
     $('form').submit(function(event) {
-        //prevent form from submitting the default way
         event.preventDefault();
         var values = $(this).serialize();
-        //debugger
         createNewBooking(values);
       });
 
@@ -27,14 +25,12 @@ function listenForSubmit() {
 function showBookings() {
     console.log("in show bookings")
     let userId;
-
     $.ajax({
         type: 'GET',
         url: '/current_user',
         success: function(resp){
             userId = resp["id"];
             generateList(userId);
-            //$('button#bookings').attr("disabled", true);
         }
     });
 }
@@ -106,12 +102,8 @@ function generateList(userId) {
       }).done(function(data){
         newBooking = new Booking(data);
         $("#newBookingDiv").hide();
-        showBookings();
-        //let myBooking;
-        //data["bookings"].forEach(function(el){
-        //    myBooking = new Booking(el);
-        //    addBookingItem(myBooking);
-      });   ;
+        showBookings();     
+      }); 
   }
 
   Booking.prototype.formatDate = function(){
@@ -126,8 +118,8 @@ function generateList(userId) {
   Booking.prototype.showDetails = function(){
       $(`#list-${this.id}`).html(`<div><p><i>Cruise:<b> ${this.cruise} </b></i></p>
       <p><i>Created at: ${this.formatDate()}</i></p>
-      <p>Adults: ${this.num_adults}, Children: ${this.num_children}</p></div>`)
-      
+      <p>Adults: ${this.num_adults}, Children: ${this.num_children}</p>
+      <p><a href="/bookings/${this.id}">Edit or Cancel</a></p></div>`)
   }
 
 
@@ -143,4 +135,3 @@ function generateList(userId) {
     }
 }
   
-// $("p#list-1").append("text")
