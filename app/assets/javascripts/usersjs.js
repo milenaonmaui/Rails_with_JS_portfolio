@@ -99,12 +99,17 @@ function generateList(userId) {
   }
 
   function createNewBooking(values) {
-     // alert(values);
       $.ajax({
         type: 'POST',
         url: '/bookings',
         data: values
-      });
+      }).done(function(data){
+          debugger
+        //let myBooking;
+        //data["bookings"].forEach(function(el){
+        //    myBooking = new Booking(el);
+        //    addBookingItem(myBooking);
+      });   ;
   }
 
   Booking.prototype.formatDate = function(){
