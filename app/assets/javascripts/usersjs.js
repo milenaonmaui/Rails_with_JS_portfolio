@@ -34,7 +34,7 @@ function showBookings() {
         success: function(resp){
             userId = resp["id"];
             generateList(userId);
-            $('button#bookings').attr("disabled", true);
+            //$('button#bookings').attr("disabled", true);
         }
     });
 }
@@ -104,7 +104,9 @@ function generateList(userId) {
         url: '/bookings',
         data: values
       }).done(function(data){
-          debugger
+        newBooking = new Booking(data);
+        $("#newBookingDiv").hide();
+        showBookings();
         //let myBooking;
         //data["bookings"].forEach(function(el){
         //    myBooking = new Booking(el);
@@ -131,11 +133,14 @@ function generateList(userId) {
 
  function addBookingItem(booking) {
     let id =  booking.id;
+    let elem = "#booking-" + id;
+    if ($(elem).length === 0){
     let bookingListItem = '<li>' + "Booking for " + booking.cruise + "   " +
     '<button id= ' + `"booking-${id}"` + '> View </button>' +
     '<div id = ' + `"list-${id}"` + '></div></li>';
     $("#bookingsList").append(bookingListItem);
     $(`#booking-${id}`).on('click', () => booking.showDetails());
-  }
+    }
+}
   
 // $("p#list-1").append("text")
