@@ -86,6 +86,22 @@ function generateList(userId) {
       }
   }
   
+  Booking.prototype.formatDate = function(){
+    const monthNames = [
+        "Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul",
+        "Aug", "Sep", "Oct", "Nov", "Dec"];
+    let date = new Date(this.created_at)
+    return date.getDate() + "-" + monthNames[date.getMonth()] + "-" + date.getFullYear() + " at " + date.getHours() +":" + date.getMinutes();
+  }
+
+  Booking.prototype.showDetails = function(){
+      $(`#list-${this.id}`).html(`<div><p><i>Cruise:<b> ${this.cruise} </b></i></p>
+      <p><i>Created at: ${this.formatDate()}</i></p>
+      <p>Adults: ${this.num_adults}, Children: ${this.num_children}</p>
+      <p><a href="/bookings/${this.id}">Edit or Cancel</a></p></div>`)
+  }
+
   function populateSelectCruise(){
       var ddList = document.getElementById('booking_cruise_id');
       cruises.forEach(function(cruise) {
@@ -106,32 +122,31 @@ function generateList(userId) {
       }); 
   }
 
-  Booking.prototype.formatDate = function(){
-    const monthNames = [
-        "Jan", "Feb", "Mar",
-        "Apr", "May", "Jun", "Jul",
-        "Aug", "Sep", "Oct", "Nov", "Dec"];
-    let date = new Date(this.created_at)
-    return date.getDate() + "-" + monthNames[date.getMonth()] + "-" + date.getFullYear() + " at " + date.getHours() +":" + date.getMinutes();
-  }
-
-  Booking.prototype.showDetails = function(){
-      $(`#list-${this.id}`).html(`<div><p><i>Cruise:<b> ${this.cruise} </b></i></p>
-      <p><i>Created at: ${this.formatDate()}</i></p>
-      <p>Adults: ${this.num_adults}, Children: ${this.num_children}</p>
-      <p><a href="/bookings/${this.id}">Edit or Cancel</a></p></div>`)
-  }
+  
 
 
  function addBookingItem(booking) {
     let id =  booking.id;
     let elem = "#booking-" + id;
     if ($(elem).length === 0){
-    let bookingListItem = '<li>' + "Booking for " + booking.cruise + "   " +
-    '<button id= ' + `"booking-${id}"` + '> View </button>' +
-    '<div id = ' + `"list-${id}"` + '></div></li>';
-    $("#bookingsList").append(bookingListItem);
-    $(`#booking-${id}`).on('click', () => booking.showDetails());
-    }
+        let bookingListItem = '<li>' + "Booking for " + booking.cruise + "   " +
+        '<button class="btn btn-sm" id= ' + `"booking-${id}"` + '> View Details </button>' +
+        '<div id = ' + `"list-${id}"` + '></div></li>';
+        $("#bookingsList").append(bookingListItem);
+        $(`#booking-${id}`).click(function() {
+           
+            if ($( this ).text()===" View Details ") {
+                if ($(`#list-${id}`).text() ==="")
+                   booking.showDetails(); 
+                else {
+                    $(`#list-${id}`).show();                 
+                }
+                $(this).text(" Hide Details ")                           
+            } else {
+                $(this).text(" View Details ");
+                $(`#list-${id}`).hide();
+            }
+        });
+   }
 }
   
