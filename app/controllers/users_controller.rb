@@ -21,6 +21,7 @@ class UsersController < ApplicationController
     end
 
     def show
+        
         if logged_in? && params[:id].to_i == current_user.id
             @user = User.find_by_id(params[:id])
             respond_to do |f|

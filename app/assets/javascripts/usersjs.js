@@ -43,6 +43,28 @@ function newBooking(){
 }
 
 function generateList(userId) {
+    const url = '/users/' + userId +'.json';
+   
+    fetch(url, {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+      .then(resp => resp.json())
+      .then(json => generateBookings(json));
+ }
+     /*
+    console.log(JSON.stringify(myJson));
+   
+    console.log(url);
+    fetch(url, {
+        method: 'GET'
+    })
+        .then(res => {debugger; res(json)})
+        .then(json => generateBookings(json));
+    
     $.ajax({
         url: '/users/' + userId,
         metod: 'GET',
@@ -53,6 +75,16 @@ function generateList(userId) {
             myBooking = new Booking(el);
             addBookingItem(myBooking);
         });   
+    });
+    */
+  
+
+  function generateBookings(data){
+    console.log(JSON.stringify(data))
+    let myBooking;
+    data["bookings"].forEach(function(el){
+        myBooking = new Booking(el);
+        addBookingItem(myBooking);
     });
   }
 
