@@ -130,7 +130,7 @@ function generateList(userId) {
     let elem = "#booking-" + id;
     if ($(elem).length === 0){
         let bookingListItem = '<li>' + "Booking for " + booking.cruise + "   " +
-        '<button class="btn btn-sm" id= ' + `"booking-${id}"` + '> View Details </button>' +
+        '<button class="btn btn-link" id= ' + `"booking-${id}"` + '> View Details </button>' +
         '<div id = ' + `"list-${id}"` + '></div></li>';
         $("#bookingsList").append(bookingListItem);
         $(`#booking-${id}`).click(function() {
