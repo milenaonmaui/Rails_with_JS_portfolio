@@ -16,7 +16,8 @@ function listenForBookings() {
 function listenForSubmit() {
     $('form').submit(function(event) {
         event.preventDefault();
-        var values = $(this).serialize();
+        //let values = $(this).serialize();
+        let values = new FormData(this);
         createNewBooking(values);
       });
 
@@ -25,6 +26,14 @@ function listenForSubmit() {
 function showBookings() {
     console.log("in show bookings")
     let userId;
+    fetch('/current_user', {
+        method: 'GET',
+        credentials: 'same-origin',
+    })
+      .then(resp => resp.json())
+      .then(json => generateList(json["id"]));
+}
+    /*
     $.ajax({
         type: 'GET',
         url: '/current_user',
@@ -33,10 +42,12 @@ function showBookings() {
             generateList(userId);
         }
     });
-}
+    */
+
 
 function newBooking(){
     let myBooking = Booking.newForm();
+    $("#newBookingDiv").show();
     $("#newBookingDiv").html(myBooking);
     populateSelectCruise();
     listenForSubmit();
@@ -54,7 +65,7 @@ function generateList(userId) {
     })
       .then(resp => resp.json())
       .then(json => generateBookings(json));
- }
+}
      /*
     console.log(JSON.stringify(myJson));
    
@@ -80,7 +91,6 @@ function generateList(userId) {
   
 
   function generateBookings(data){
-    console.log(JSON.stringify(data))
     let myBooking;
     data["bookings"].forEach(function(el){
         myBooking = new Booking(el);
@@ -143,7 +153,25 @@ function generateList(userId) {
   }
 
   function createNewBooking(values) {
-      $.ajax({
+    const token = $('meta[name="csrf-token"]').attr('content');
+    fetch('/bookings', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'X-CSRF-Token': token
+        },
+        body: values
+    })
+      .then(resp => resp.json())
+      .then(json => postNewBooking(json));
+}
+
+function postNewBooking(json){
+    let newBooking = new Booking(json);
+    $("#newBookingDiv").hide();
+    showBookings();
+}
+      /*$.ajax({
         type: 'POST',
         url: '/bookings',
         data: values
@@ -151,8 +179,8 @@ function generateList(userId) {
         newBooking = new Booking(data);
         $("#newBookingDiv").hide();
         showBookings();     
-      }); 
-  }
+      }); */
+  
 
   
 
