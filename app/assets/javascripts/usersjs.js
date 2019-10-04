@@ -11,6 +11,7 @@ $(document).ready(function() {
 function listenForBookings() {
     $('#bookings').on('click', () => showBookings());
     $('#newBooking').on('click', () => newBooking());
+
 }
 
 function listenForSubmit() {
@@ -138,10 +139,13 @@ function generateList(userId) {
   }
 
   Booking.prototype.showDetails = function(){
-      $(`#list-${this.id}`).html(`<div><p><i>Cruise:<b> ${this.cruise} </b></i></p>
+      let id = this.id
+      $(`#list-${id}`).html(`<div><p><i>Cruise:<b> ${this.cruise} </b></i></p>
       <p><i>Created at: ${this.formatDate()}</i></p>
       <p>Adults: ${this.num_adults}, Children: ${this.num_children}</p>
-      <p><a href="/bookings/${this.id}">Edit or Cancel</a></p></div>`)
+      <p><a href="/bookings/${id}" class="btn btn-link">Edit</a> 
+      <button class="btn btn-link" id="cancel-${id}"> Cancel </button></p></div>`)
+      $(`#cancel-${id}`).on('click', () => cancelBooking(id))
   }
 
   function populateSelectCruise(){
@@ -208,5 +212,9 @@ function postNewBooking(json){
             }
         });
    }
+}
+
+function cancelBooking(id) {
+    alert('Cancel booking ' + id)
 }
   
