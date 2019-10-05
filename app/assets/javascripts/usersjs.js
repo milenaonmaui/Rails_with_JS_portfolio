@@ -47,8 +47,8 @@ function showBookings() {
 
 
 function newBooking(){
-    let myBooking = Booking.newForm();
     $("#newBookingDiv").show();
+    let myBooking = Booking.newForm(); 
     $("#newBookingDiv").html(myBooking);
     populateSelectCruise();
     listenForSubmit();
@@ -215,6 +215,15 @@ function postNewBooking(json){
 }
 
 function cancelBooking(id) {
-    alert('Cancel booking ' + id)
+    let resp = confirm("Do you really want to cancel?")
+    if (resp) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/bookings/' + id
+            
+          }).done(function(data){
+            showBookings();     
+          }); 
+    }
 }
   
