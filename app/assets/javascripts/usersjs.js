@@ -193,7 +193,7 @@ function postNewBooking(json){
     let id =  booking.id;
     let elem = "#booking-" + id;
     if ($(elem).length === 0){
-        let bookingListItem = '<li><h3>' + "Booking for " + booking.cruise + "   " +
+        let bookingListItem = '<li id= ' + `"item-${id}"` + '><h3>' + "Booking for " + booking.cruise + "   " +
         '<button class="btn btn-link" id= ' + `"booking-${id}"` + '> View Details </button></h3>' +
         '<div id = ' + `"list-${id}"` + '></div></li>';
         $("#bookingsList").append(bookingListItem);
@@ -222,7 +222,7 @@ function cancelBooking(id) {
             url: '/bookings/' + id
             
           }).done(function(data){
-            showBookings();     
+            showBookings();    
           }); 
     }
 }

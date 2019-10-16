@@ -65,7 +65,7 @@ class BookingsController < ApplicationController
     def destroy
         find_booking
         @booking.destroy
-        redirect_to user_path(current_user)
+        #redirect_to user_path(current_user)
     end
 
     private
