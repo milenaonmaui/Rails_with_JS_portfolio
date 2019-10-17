@@ -43,7 +43,7 @@ function newBooking(){
 
 function generateList(userId) {
     const url = '/users/' + userId +'.json';
-   
+
     fetch(url, {
         method: 'GET',
         credentials: 'same-origin',
@@ -53,6 +53,7 @@ function generateList(userId) {
     })
       .then(resp => resp.json())
       .then(json => generateBookings(json));
+      
 }
     
   function generateBookings(data){
@@ -165,14 +166,14 @@ function addBookingItem(booking) {
 }
 
 function cancelBooking(id) {
-    let resp = confirm("Do you really want to cancel?")
+    let resp = confirm(`Do you really want to cancel?`)
     if (resp) {
         $.ajax({
             type: 'DELETE',
             url: '/bookings/' + id
             
           }).done(function(data){
-            showBookings();    
+            $(`#item-${id}`).remove();    
           }); 
     }
 }
