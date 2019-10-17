@@ -17,7 +17,6 @@ function listenForBookings() {
 function listenForSubmit() {
     $('form').submit(function(event) {
         event.preventDefault();
-        //let values = $(this).serialize();
         let values = new FormData(this);
         createNewBooking(values);
       });
@@ -25,7 +24,6 @@ function listenForSubmit() {
 }
 
 function showBookings() {
-    console.log("in show bookings")
     let userId;
     fetch('/current_user', {
         method: 'GET',
@@ -34,17 +32,6 @@ function showBookings() {
       .then(resp => resp.json())
       .then(json => generateList(json["id"]));
 }
-    /*
-    $.ajax({
-        type: 'GET',
-        url: '/current_user',
-        success: function(resp){
-            userId = resp["id"];
-            generateList(userId);
-        }
-    });
-    */
-
 
 function newBooking(){
     $("#newBookingDiv").show();
@@ -67,30 +54,7 @@ function generateList(userId) {
       .then(resp => resp.json())
       .then(json => generateBookings(json));
 }
-     /*
-    console.log(JSON.stringify(myJson));
-   
-    console.log(url);
-    fetch(url, {
-        method: 'GET'
-    })
-        .then(res => {debugger; res(json)})
-        .then(json => generateBookings(json));
     
-    $.ajax({
-        url: '/users/' + userId,
-        metod: 'GET',
-        dataType: 'json'               
-      }).done(function(data){
-        let myBooking;
-        data["bookings"].forEach(function(el){
-            myBooking = new Booking(el);
-            addBookingItem(myBooking);
-        });   
-    });
-    */
-  
-
   function generateBookings(data){
     let myBooking;
     data["bookings"].forEach(function(el){
@@ -143,8 +107,7 @@ function generateList(userId) {
       $(`#list-${id}`).html(`<div><p><i>Cruise:<b> ${this.cruise} </b></i></p>
       <p><i>Created at: ${this.formatDate()}</i></p>
       <p>Adults: ${this.num_adults}, Children: ${this.num_children}</p>
-      <p><a href="/bookings/${id}" class="btn btn-link">Edit</a> 
-      <button class="btn btn-link" id="cancel-${id}"> Cancel </button></p></div>`)
+      <p> <button class="btn btn-link" id="cancel-${id}"> Cancel </button></p></div>`)
       $(`#cancel-${id}`).on('click', () => cancelBooking(id))
   }
 
@@ -175,21 +138,8 @@ function postNewBooking(json){
     $("#newBookingDiv").hide();
     showBookings();
 }
-      /*$.ajax({
-        type: 'POST',
-        url: '/bookings',
-        data: values
-      }).done(function(data){
-        newBooking = new Booking(data);
-        $("#newBookingDiv").hide();
-        showBookings();     
-      }); */
   
-
-  
-
-
- function addBookingItem(booking) {
+function addBookingItem(booking) {
     let id =  booking.id;
     let elem = "#booking-" + id;
     if ($(elem).length === 0){
@@ -226,4 +176,3 @@ function cancelBooking(id) {
           }); 
     }
 }
-  
