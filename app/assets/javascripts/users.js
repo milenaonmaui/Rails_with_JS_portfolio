@@ -1,7 +1,7 @@
 let cruises;
 
 $(document).ready(function() {
-    console.log('usersjs.js is loaded...');
+    console.log('users.js loaded...');
     listenForBookings();
     $.getJSON("/cruises.json", function(result){
         cruises=result;
@@ -11,7 +11,37 @@ $(document).ready(function() {
 function listenForBookings() {
     $('#bookings').on('click', () => showBookings());
     $('#newBooking').on('click', () => newBooking());
+    $('#sort').on('click', () =>sortBookings());
 
+}
+
+function sortBookings(){
+    const url = '/users/1.json';
+
+    fetch(url, {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+      .then(resp => resp.json())
+      .then(json => {
+        json.bookings.sort(function(a, b) {
+        var nameA = a.cruise.toUpperCase(); // ignore upper and lowercase
+        var nameB = b.cruise.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+      
+        // names must be equal
+        return 0;
+      });
+      console.log(json.bookings)
+    });
 }
 
 function listenForSubmit() {

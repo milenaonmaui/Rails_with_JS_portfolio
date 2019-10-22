@@ -2,6 +2,7 @@
 <h2><%=@user.email%></h2> 
 
 <button id="bookings" class="btn btn-primary">Show Bookings</button>
+<button id="sort" class="btn btn-primary">Sort Bookings</button>
 <button id="newBooking" class="btn btn-primary">New Booking</button>
 <hr>
 <div id="newBookingDiv"></div>
@@ -9,15 +10,3 @@
    <ul id = "bookingsList">
    </ul>
 </div>
-<!--
-<%if @user.bookings.any?%>
-  <h2>Your Bookings:</h2>
-  <ul>
-    <% @user.bookings.each do |booking| %>
-      <li><%= link_to booking.cruise.name, booking_path(booking) %></li>
-    <% end %>
-  </ul>
-<%else%>
-  <h3>Currently you have no bookings. <%=link_to "Book Now", cruises_path%></h3>
-<%end%>
--->
