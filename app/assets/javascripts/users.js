@@ -41,6 +41,10 @@ function sortBookings(){
         return 0;
       });
       console.log(json.bookings)
+      json.bookings.forEach(function(item){
+          let newItem = `<li>${item.cruise}</li>`
+          $("#bookingsList").append(newItem)
+      })
     });
 }
 
